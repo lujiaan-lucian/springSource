@@ -310,7 +310,7 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 		}
 
 		@Override
-		/*xxx: setValue最终执行的是反射方法，最终将值写入*/
+		//setValue最终执行的是反射方法，最终将值写入
 		public void setValue(@Nullable Object value) throws Exception {
 			Method writeMethod = (this.pd instanceof GenericTypeAwarePropertyDescriptor ?
 					((GenericTypeAwarePropertyDescriptor) this.pd).getWriteMethodForActualAccess() :

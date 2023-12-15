@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring.xml");
-        A hello = (A)context.getBean("hello");
+        A hello = (A)context.getBean("helloA");
         hello.say();
     }
 

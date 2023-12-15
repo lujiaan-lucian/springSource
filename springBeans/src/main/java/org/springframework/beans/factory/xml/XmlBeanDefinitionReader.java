@@ -323,7 +323,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Loading XML bean definitions from " + encodedResource);
 		}
-
+		//查看已经加载的资源
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 		/*xxx: 如果之前已经加载过，则抛错 */
 		if (!currentResources.add(encodedResource)) {
@@ -389,7 +389,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throws BeanDefinitionStoreException {
 
 		try {
-			/*xxx: 将xml文件中的内容，通过 xml领域相关类，创建Document文档 */
+			//将xml文件中的内容，通过 xml领域相关类，创建Document文档
 			Document doc = doLoadDocument(inputSource, resource);
 			int count = registerBeanDefinitions(doc, resource);
 			if (logger.isDebugEnabled()) {

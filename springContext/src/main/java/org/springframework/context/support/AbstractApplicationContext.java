@@ -572,20 +572,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
-		/*xxx: 同步锁*/
+		//同步锁
 		synchronized (this.startupShutdownMonitor) {
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
-			/*xxx:准备用于刷新的上下文,该方法执行后，当前上下文的 actived 状态为真，environment被初始化。  同时，初始化应用启动前的应用监听器. */
+			//准备用于刷新的上下文,该方法执行后，当前上下文的 actived 状态为真，environment被初始化。  同时，初始化应用启动前的应用监听器. */
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			/*xxx: 通知子类，刷新内部实际的bean工厂。 变更上下文的启动状态 refreshed 为true。  同时，在这个阶段，会进行beanDefinition的加载，包括 xml 以及 annotation */
+			//通知子类，刷新内部实际的bean工厂。 变更上下文的启动状态 refreshed 为true。  同时，在这个阶段，会进行beanDefinition的加载，包括 xml 以及 annotation */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
-			/*xxx: 准备这个上下文即将使用的bean工厂。 主要就是设置 bean容器运行所必需的依赖，同时新增几个bean后置处理器，设置忽略注入的接口，以及设置特定的全局依赖（包括environment,startupDate等）*/
+			//beanFactory的准备工作，对各种属性进行填充。 主要就是设置 bean容器运行所必需的依赖，同时新增几个bean后置处理器，设置忽略注入的接口，以及设置特定的全局依赖（包括environment,startupDate等）
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -979,7 +979,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
-		/*xxx: 实例化所有 没有 懒实例化的单例*/
+		/*xxx: 实例化所有 非懒加载的单例*/
 		beanFactory.preInstantiateSingletons();
 	}
 

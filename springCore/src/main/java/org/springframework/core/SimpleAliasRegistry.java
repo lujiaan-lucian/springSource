@@ -70,6 +70,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 						return;
 					}
 					if (!allowAliasOverriding()) {
+						//如果alias不允许被覆盖，抛出异常
 						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
 					}
@@ -78,7 +79,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 								registeredName + "' with new target name '" + name + "'");
 					}
 				}
-				/*xxx: 检测别名是否构成环状*/
+				//检测别名是否构成环状：当A->B存在时，若再次出现 A->C->B 时候则会抛出异常
 				checkForAliasCircle(name, alias);
 				this.aliasMap.put(alias, name);
 				if (logger.isTraceEnabled()) {

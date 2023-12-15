@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 上传文件拦截，设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes -->
-    <bean id="hello" class="com.automannn.spring.A">
-        <property name="name" value="lja" />
-    </bean>
+    <beans profile="dev">
+        <bean id="hello" class="com.automannn.spring.A">
+            <property name="name" value="lja-dev" />
+        </bean>
+    </beans>
+
+    <beans profile="pro">
+        <bean id="helloA" class="com.automannn.spring.A">
+            <property name="name" value="ljaA-pro" />
+            <property name="b" ref="helloB" />
+        </bean>
+        <bean id="helloB" class="com.automannn.spring.B">
+            <property name="name" value="ljaB-pro" />
+            <property name="a" ref="helloA" />
+        </bean>
+
+        <!-- 定义切面 -->
+        <bean id="userServiceAspect" class="com.automannn.spring.UserServiceAspect"/>
+
+        <!-- 配置AOP，基于AspectJ -->
+        <aop:config>
+            <aop:pointcut id="myPointcut" expression="execution(* com.automannn.spring.A.*(..))"/>
+            <!-- 装配切面，ref引用上面配置的切面的id -->
+            <aop:aspect ref="userServiceAspect">
+                <!-- 装配通知,method对应通知的方法名，pointcut-ref引用上面定义的切入点的id
+                 如果不同的通知想使用不同的切入点，那么使用pointcut属性进行自定义 -->
+                <!-- 前置通知 -->
+                <aop:before method="before" pointcut-ref="myPointcut"/>
+                <!-- 环绕通知 -->
+                <aop:around method="around" pointcut-ref="myPointcut"/>
+                <!-- 后置通知，returning属性指定后置通知方法的参数名（参数名称要一致） -->
+                <aop:after-returning method="afterReturning" pointcut-ref="myPointcut" returning="returnVal"/>
+                <!-- 异常通知，throwing属性指定异常通知方法的参数名（名称要一致） -->
+                <aop:after-throwing method="afterThrowing" pointcut-ref="myPointcut" throwing="e"/>
+                <!-- 最终通知 -->
+                <aop:after method="after" pointcut-ref="myPointcut"/>
+            </aop:aspect>
+        </aop:config>
+        <!-- 事务管理器 -->
+<!--        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+<!--            <property name="dataSource" ref="dataSource" />-->
+<!--        </bean>-->
+<!--        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--            <property name="url"><value>127.0.0.1</value></property>-->
+<!--            <property name="username"><value>root</value></property>-->
+<!--            <property name="password"><value>123456</value></property>-->
+<!--        </bean>-->
+<!--        &lt;!&ndash;开启注解事务&ndash;&gt;-->
+<!--        <tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+    </beans>
 
 </beans>

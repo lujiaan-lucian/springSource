@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
  * @author Juergen Hoeller
  * @since 2.0
  */
-/*xxx:顶级接口， bean元数据元素*/
+//顶级接口， bean元数据元素
 public interface BeanMetadataElement {
 
 	/**
@@ -33,7 +33,13 @@ public interface BeanMetadataElement {
 	 * (may be {@code null}).
 	 */
 	@Nullable
-	/*xxx: 返回这个元素据对象的配置源 */
+	//返回这个元素据对象的配置源
+	/**
+	 * AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+	 *         System.out.println(context.getBeanDefinition("studySpring").getSource());
+	 *         //打印如下：
+	 *         file [D:\cycleinject\target\classes\com\codebear\springcycle\StudySpring.class]
+	 */
 	default Object getSource() {
 		return null;
 	}

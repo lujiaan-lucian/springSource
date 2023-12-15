@@ -754,12 +754,12 @@ public abstract class ClassUtils {
 	public static Set<Class<?>> getAllInterfacesForClassAsSet(Class<?> clazz, @Nullable ClassLoader classLoader) {
 		Assert.notNull(clazz, "Class must not be null");
 		if (clazz.isInterface() && isVisible(clazz, classLoader)) {
-			/*xxx:如果目标类本身是接口，则不再获取超类接口*/
+			//如果目标类本身是接口，则不再获取超类接口
 			return Collections.singleton(clazz);
 		}
 		Set<Class<?>> interfaces = new LinkedHashSet<>();
 		Class<?> current = clazz;
-		/*xxx:向上遍历，取出所有的超类接口*/
+		//向上遍历，取出所有的超类接口
 		while (current != null) {
 			Class<?>[] ifcs = current.getInterfaces();
 			for (Class<?> ifc : ifcs) {

@@ -58,7 +58,7 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 
 
 	@Override
-	/*xxx: 创建AOP动态代理*/
+	//创建AOP动态代理
 	public AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException {
 		if (!IN_NATIVE_IMAGE &&
 				(config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config))) {
@@ -67,15 +67,15 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 				throw new AopConfigException("TargetSource cannot determine target class: " +
 						"Either an interface or a target is required for proxy creation.");
 			}
-			/*xxx: 如果被代理对象是 接口，则动态代理采用 jdk的动态代理进行编织*/
+			//如果被代理对象是 接口，则动态代理采用 jdk的动态代理进行编织
 			if (targetClass.isInterface() || Proxy.isProxyClass(targetClass)) {
 				return new JdkDynamicAopProxy(config);
 			}
-			/*xxx: 如果被代理对象是 实例类，则动态代理采用 cglib的动态代理进行编织*/
+			//如果被代理对象是 实例类，则动态代理采用 cglib的动态代理进行编织
 			return new ObjenesisCglibAopProxy(config);
 		}
 		else {
-			/*xxx: 当前环境是否是原生环境，原生环境，则只能使用 jdk动态代理*/
+			//当前环境是否是原生环境，原生环境，则只能使用 jdk动态代理
 			return new JdkDynamicAopProxy(config);
 		}
 	}

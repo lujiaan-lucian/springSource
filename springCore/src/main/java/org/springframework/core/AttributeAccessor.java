@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
  * @author Rob Harrop
  * @since 2.0
  */
-/*xxx: 顶级接口，属性访问器*/
+//顶级接口，属性访问器
 public interface AttributeAccessor {
 
 	/**
@@ -37,7 +37,7 @@ public interface AttributeAccessor {
 	 * @param name the unique attribute key
 	 * @param value the attribute value to be attached
 	 */
-	/*xxx: 设置属性*/
+	//设置属性
 	void setAttribute(String name, @Nullable Object value);
 
 	/**

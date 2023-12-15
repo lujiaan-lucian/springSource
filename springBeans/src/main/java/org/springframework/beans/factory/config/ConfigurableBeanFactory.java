@@ -402,7 +402,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * @return whether the bean is currently in creation
 	 * @since 2.5
 	 */
-	/*xxx: 获取 指定的 bean的 inCreation状态*/
+	//获取 指定的 bean的 inCreation状态
 	boolean isCurrentlyInCreation(String beanName);
 
 	/**
@@ -412,7 +412,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * @param dependentBeanName the name of the dependent bean
 	 * @since 2.5
 	 */
-	/*xxx: 为给定的bean，注册依赖的bean*/
+	//为给定的bean，注册依赖的bean
 	void registerDependentBean(String beanName, String dependentBeanName);
 
 	/**

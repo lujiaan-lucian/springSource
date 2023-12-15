@@ -5,18 +5,18 @@ package com.automannn.spring;
  * @date 2023/09/05
  * @description
  */
-public class A {
+public class B {
 
     private String name;
 
-    private B b;
+    private A a;
 
-    public B getB() {
-        return b;
+    public A getA() {
+        return a;
     }
 
-    public void setB(B b) {
-        this.b = b;
+    public void setA(A a) {
+        this.a = a;
     }
 
     public void say(){

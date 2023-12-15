@@ -35,11 +35,11 @@ import org.springframework.util.StringUtils;
  * @since 2.0
  */
 @SuppressWarnings("serial")
-/*xxx: 属性访问器抽象实现 */
+//属性访问器抽象实现
 public abstract class AttributeAccessorSupport implements AttributeAccessor, Serializable {
 
 	/** Map with String keys and Object values. */
-	/*xxx: 属性缓存  */
+	//属性缓存
 	private final Map<String, Object> attributes = new LinkedHashMap<>();
 
 

@@ -228,16 +228,16 @@ public abstract class AopUtils {
 	 * for this bean includes any introductions
 	 * @return whether the pointcut can apply on any method
 	 */
-	/*xxx: 检测目标类是否满足切点条件*/
+	//检测目标类是否满足切点条件
 	public static boolean canApply(Pointcut pc, Class<?> targetClass, boolean hasIntroductions) {
 		Assert.notNull(pc, "Pointcut must not be null");
-		/*xxx:首先会经过类过滤器进行过滤*/
+		//首先会经过类过滤器进行过滤
 		if (!pc.getClassFilter().matches(targetClass)) {
 			return false;
 		}
 
 		MethodMatcher methodMatcher = pc.getMethodMatcher();
-		/*xxx:然后会通过切点的方法匹配策略 进行匹配*/
+		//然后会通过切点的方法匹配策略 进行匹配
 		if (methodMatcher == MethodMatcher.TRUE) {
 			// No need to iterate the methods if we're matching any method anyway...
 			return true;
@@ -250,17 +250,17 @@ public abstract class AopUtils {
 
 		Set<Class<?>> classes = new LinkedHashSet<>();
 		if (!Proxy.isProxyClass(targetClass)) {
-			/*xxx:目标对象没有采用jdk动态代理，则要么是cglib代理，要么没有代理，获取到没有代理的原始类*/
+			//目标对象没有采用jdk动态代理，则要么是cglib代理，要么没有代理，获取到没有代理的原始类
 			classes.add(ClassUtils.getUserClass(targetClass));
 		}
-		/*xxx: 获取到目标类的所有的超类接口*/
+		//获取到目标类的所有的超类接口
 		classes.addAll(ClassUtils.getAllInterfacesForClassAsSet(targetClass));
 
 		for (Class<?> clazz : classes) {
-			/*xxx:获取目标类即接口的方法，只要有一个方法满足切点条件，即视为切点可以匹配*/
+			//获取目标类即接口的方法，只要有一个方法满足切点条件，即视为切点可以匹配
 			Method[] methods = ReflectionUtils.getAllDeclaredMethods(clazz);
 			for (Method method : methods) {
-				/*xxx:对目标类和方法进行切点验证*/
+				//对目标类和方法进行切点验证
 				if (introductionAwareMethodMatcher != null ?
 						introductionAwareMethodMatcher.matches(method, targetClass, hasIntroductions) :
 						methodMatcher.matches(method, targetClass)) {
@@ -294,15 +294,15 @@ public abstract class AopUtils {
 	 * any introductions
 	 * @return whether the pointcut can apply on any method
 	 */
-	/*xxx: 判断给定的切面是否匹配*/
+	//判断给定的切面是否匹配
 	public static boolean canApply(Advisor advisor, Class<?> targetClass, boolean hasIntroductions) {
 		if (advisor instanceof IntroductionAdvisor) {
-			/*xxx: IntroductionAdvisor，根据类过滤器，进行匹配 */
+			//IntroductionAdvisor，根据类过滤器，进行匹配
 			return ((IntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
 		}
 		else if (advisor instanceof PointcutAdvisor) {
 			PointcutAdvisor pca = (PointcutAdvisor) advisor;
-			/*xxx: PointcutAdvisor，检测目标类是否满足切点条件*/
+			//PointcutAdvisor，检测目标类是否满足切点条件
 			return canApply(pca.getPointcut(), targetClass, hasIntroductions);
 		}
 		else {
@@ -319,7 +319,7 @@ public abstract class AopUtils {
 	 * @return sublist of Advisors that can apply to an object of the given class
 	 * (may be the incoming List as-is)
 	 */
-	/*xxx: 从给定的预备通知器中，筛选出满足切点的通知器*/
+	//从给定的预备通知器中，筛选出满足切点的通知器
 	public static List<Advisor> findAdvisorsThatCanApply(List<Advisor> candidateAdvisors, Class<?> clazz) {
 		if (candidateAdvisors.isEmpty()) {
 			return candidateAdvisors;
