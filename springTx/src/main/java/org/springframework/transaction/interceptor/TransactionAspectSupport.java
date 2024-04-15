@@ -333,11 +333,11 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 			final InvocationCallback invocation) throws Throwable {
 
 		// If the transaction attribute is null, the method is non-transactional.
-		/*xxx: 获取事务属性类*/
+		//获取事务属性类
 		TransactionAttributeSource tas = getTransactionAttributeSource();
-		/*xxx: 获取方法上面有 @Transactional注解的属性*/
+		//获取方法上面有 @Transactional注解的属性
 		final TransactionAttribute txAttr = (tas != null ? tas.getTransactionAttribute(method, targetClass) : null);
-		//xxx: 通过该属性，获取到事务管理器
+		//通过该属性，获取到事务管理器
 		final TransactionManager tm = determineTransactionManager(txAttr);
 
 		if (this.reactiveAdapterRegistry != null && tm instanceof ReactiveTransactionManager) {
@@ -363,29 +363,29 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 
 		if (txAttr == null || !(ptm instanceof CallbackPreferringPlatformTransactionManager)) {
 			// Standard transaction demarcation with getTransaction and commit/rollback calls.
-			/*xxx: 新建事务信息， 会将其保存至线程上下文中 ，通过bindToThread()方法*/
-			/*xxx: 新建事务信息，会进行 事务状态的传递 */
-			/*xxx: 相当于 开启事务*/
+			//新建事务信息， 会将其保存至线程上下文中 ，通过bindToThread()方法
+			//新建事务信息，会进行 事务状态的传递
+			//相当于 开启事务
 			TransactionInfo txInfo = createTransactionIfNecessary(ptm, txAttr, joinpointIdentification);
 
-			/*xxx: 返回值*/
+			//返回值
 			Object retVal;
 			try {
 				// This is an around advice: Invoke the next interceptor in the chain.
 				// This will normally result in a target object being invoked.
-				//xxx: 切面向下执行
-				/*xxx: 如果没有事务切面了，就执行业务方法*/
+				//切面向下执行
+				//如果没有事务切面了，就执行业务方法
 				retVal = invocation.proceedWithInvocation();
 			}
 			catch (Throwable ex) {
 				// target invocation exception
-				/*xxx: 业务方法执行报错，回滚*/
+				//业务方法执行报错，回滚
 				completeTransactionAfterThrowing(txInfo, ex);
 				throw ex;
 			}
 			finally {
-				/*xxx: 清除当前事务*/
-				/*xxx: 类似于 当前事务出栈*/
+				//清除当前事务
+				//类似于 当前事务出栈
 				cleanupTransactionInfo(txInfo);
 			}
 
@@ -587,7 +587,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		TransactionStatus status = null;
 		if (txAttr != null) {
 			if (tm != null) {
-				//xxx: 从事务管理器里面，获取事务状态 （此处会开启事务，整个流程的重点）
+				//从事务管理器里面，获取事务状态 （此处会开启事务，整个流程的重点）
 				status = tm.getTransaction(txAttr);
 			}
 			else {
@@ -597,7 +597,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 				}
 			}
 		}
-		//xxx: 创建事务信息对象，记录新老事务信息
+		//创建事务信息对象，记录新老事务信息
 		return prepareTransactionInfo(tm, txAttr, joinpointIdentification, status);
 	}
 
@@ -666,7 +666,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 				logger.trace("Completing transaction for [" + txInfo.getJoinpointIdentification() +
 						"] after exception: " + ex);
 			}
-			/*xxx: 当前异常需要回滚，则调用 事务管理器进行 回滚操作 */
+			//当前异常需要回滚，则调用 事务管理器进行 回滚操作
 			if (txInfo.transactionAttribute != null && txInfo.transactionAttribute.rollbackOn(ex)) {
 				try {
 					txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());
@@ -681,7 +681,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 					throw ex2;
 				}
 			}
-			/*xxx: 否则提交该事务*/
+			//否则提交该事务
 			else {
 				// We don't roll back on this exception.
 				// Will still roll back if TransactionStatus.isRollbackOnly() is true.
